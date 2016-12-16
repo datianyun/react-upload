@@ -8,6 +8,10 @@
 npm install reactui-upload
 ```
 
+### API
+
+未完成
+
 ### Demo
 
 ``` sh
