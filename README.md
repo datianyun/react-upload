@@ -2,7 +2,7 @@
 
 图片上传组件
 
-![alt text](blob:http://datianyun.github.io/9ea61cb0-3779-4792-a14c-c80e37c14c9c "title")
+![alt text](http://img1.gtimg.com/house/pics/hv1/85/54/2170/141118105.png "title")
 [在线demo](http://datianyun.github.io/upload "Title")
 ### Installation
 ``` sh
