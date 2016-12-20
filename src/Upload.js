@@ -143,9 +143,6 @@ class Upload extends Component {
      upload(file) {
          if (!file || file.size === 0) return null;
          let key = file.preview.split('/').pop() + '.' + file.name.split('.').pop();
-         if (this.props.prefix) {
-             key = this.props.prefix  + key;
-         }
          let onComplete = this.props.onComplete
 
          var r = request
@@ -205,9 +202,7 @@ Upload.propTypes = {
     //上传的url
     uploadUrl: React.PropTypes.string,
     //上传控件自定义样式的className
-    className: React.PropTypes.string,
-    //上传文件名的前缀
-    prefix: React.PropTypes.string
+    className: React.PropTypes.string
 }
 
 export default Upload
