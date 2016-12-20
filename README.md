@@ -1,7 +1,7 @@
 # react-upload
 
 图片上传组件
-![](http://img1.gtimg.com/house/pics/hv1/85/54/2170/141118105.png =100x20)
+
 ![alt text](http://img1.gtimg.com/house/pics/hv1/85/54/2170/141118105.png "Title")
 [在线demo](http://datianyun.github.io/upload "Title")
 ### Installation
