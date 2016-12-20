@@ -8,6 +8,19 @@ function isFunction(fn) {
     return fn && getType.toString.call(fn) === '[object Function]';
 }
 
+function formatMaxSize(size){
+    size=size.toString().toUpperCase();
+    var bsize,m=size.indexOf('M'),k=size.indexOf('K');
+    if(m > -1){
+        bsize = parseFloat(size.slice(0, m)) * 1024 * 1024
+    }else if(k > -1){
+        bsize = parseFloat(size.slice(0, k)) * 1024
+    }else{
+        bsize = parseFloat(size)
+    }
+    return Math.abs(bsize)
+}
+
 class Upload extends Component {
     constructor(props, context) {
         super(props, context)
@@ -34,7 +47,6 @@ class Upload extends Component {
             isDragActive: true
         });
     }
-
 
     showFiles () {
         if (this.state.files.length <= 0) {
@@ -93,10 +105,19 @@ class Upload extends Component {
             this.props.onUpload(files, e);
         }
 
+        let maxSizeLimit=formatMaxSize(this.props.maxSize)
         for (let i = 0; i < maxFiles; i++) {
-            files[i].preview = URL.createObjectURL(files[i]);
-            files[i].request = this.upload(files[i]);
-            files[i].uploadPromise = files[i].request.promise();
+            if( maxSizeLimit && files[i].size > maxSizeLimit){
+                console.trace && console.trace(new Error('文件大小错误!'))
+                this.props.onError && this.props.onError({
+                   coed:1,
+                   message:'上传的文件大小超出了限制:' + this.props.maxSize
+               })
+            }else{
+                files[i].preview = URL.createObjectURL(files[i]);
+                files[i].request = this.upload(files[i]);
+                files[i].uploadPromise = files[i].request.promise();
+            }
         }
 
         if (this.props.onDrop) {
@@ -126,9 +147,6 @@ class Upload extends Component {
              key = this.props.prefix  + key;
          }
          let onComplete = this.props.onComplete
-         if(this.props.uploadKey){
-             key = this.props.uploadKey;
-         }
 
          var r = request
              .post(this.state.uploadUrl)
@@ -150,8 +168,8 @@ class Upload extends Component {
             className += ' active';
         }
         let style = this.props.style || {
-            width: this.props.size || 270,
-            height: this.props.size || 202,
+            width: 270,
+            height: 202,
             borderStyle: this.state.isDragActive ? 'solid' : 'dashed'
         };
         return (
@@ -168,16 +186,27 @@ class Upload extends Component {
 }
 
 Upload.propTypes = {
+    //拖拽后的回调
     onDrop: React.PropTypes.func,
+    //上传中回调
     onUpload: React.PropTypes.func,
-    size: React.PropTypes.number,
+    //最大图片尺寸
+    maxSize:React.PropTypes.string,
+    //样式
     style: React.PropTypes.object,
+    //是否可点击
     supportClick: React.PropTypes.bool,
+    //支持上传类型
     accept: React.PropTypes.string,
+    //是否可多次上传
     multiple: React.PropTypes.bool,
+    //上传完成的回调
     onComplete: React.PropTypes.func,
+    //上传的url
     uploadUrl: React.PropTypes.string,
-    uploadKey: React.PropTypes.string,
+    //上传控件自定义样式的className
+    className: React.PropTypes.string,
+    //上传文件名的前缀
     prefix: React.PropTypes.string
 }
 
