@@ -35,5 +35,6 @@ http://localhost:8888/example/
 
 ### Usage
 ``` javascript
+import Upload from 'reactui-upload'
 <Upload />
 ```
